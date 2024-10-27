@@ -1,0 +1,105 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Expense Tracker</title>
+    <style>
+        body {
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            height: 100vh;
+            margin: 0;
+            font-family: Arial, sans-serif;
+            background-image: url(maneh.gif);
+            background-position: center;
+            background-size: cover;
+            overflow: hidden;
+        }
+
+        .background {
+            background-image: url(maneh.gif);
+            background-position: center;
+            background-size: cover;
+            overflow: hidden;
+        }
+        .container {
+            text-align: center;
+            padding: 20px;
+            border-radius: 6px;
+            box-shadow: 0 4px 10px rgba(0, 0, 0, 0.1);
+            opacity: 0.8;
+            border: solid 3px black;
+        }
+        input[type="text"], input[type="number"] {
+            width: 80%;
+            padding: 10px;
+            margin: 10px 0;
+            border: 1px solid #ccc;
+            border-radius: 5px;
+            font-size: 16px;
+        }
+        button {
+            padding: 10px 20px;
+            margin: 10px;
+            border: none;
+            border-radius: 5px;
+            background-color: #007bff;
+            color: white;
+            font-size: 16px;
+            cursor: pointer;
+        }
+        button:hover {
+            background-color: #0056b3;
+        }
+    </style>
+</head>
+<body>
+    <div class="background">
+
+    
+        <div class="container">
+            <h1 style="color: rgb(9, 255, 0);">Expense Tracker</h1>
+            <input type="text" id="expenseName" placeholder="Expense Name"><br>
+            <input type="number" id="expenseCost" placeholder="Expense Cost"><br>
+            <button onclick="addExpense()">Add Expense</button>
+            <button onclick="downloadCSV()">Download CSV Expense File</button>
+        </div>
+
+    </div>
+
+    <script>
+        const expenses = [];
+
+        function addExpense() {
+            const name = document.getElementById("expenseName").value;
+            const cost = document.getElementById("expenseCost").value;
+
+            if(name && cost) {
+                expenses.push({ name, cost });
+                alert("Expense Added!");
+                document.getElementById("expenseName").value = '';
+                document.getElementById("expenseCost").value = '';
+            } else {
+                alert("Please fill out both fields.");
+            }
+        }
+
+        function downloadCSV() {
+            let csvContent = "data:text/csv;charset=utf-8,Expense Name,Expense Cost\n";
+            expenses.forEach(expense => {
+                csvContent += `${expense.name},${expense.cost}\n`;
+            });
+
+            const encodedUri = encodeURI(csvContent);
+            const link = document.createElement("a");
+            link.setAttribute("href", encodedUri);
+            link.setAttribute("download", "expenses.csv");
+            document.body.appendChild(link);
+            link.click();
+            document.body.removeChild(link);
+        }
+    </script>
+</body>
+</html>
